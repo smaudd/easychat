@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Messages</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        margin-bottom: 20px;
+        border-bottom: 2px solid #333;
+        padding-bottom: 5px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        margin-bottom: 10px;
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      li strong {
+        color: #333;
+      }
+      form {
+        margin-top: 20px;
+        border-top: 2px solid #333;
+        padding-top: 10px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Messages</h1>
+    <ul>
+      <% messages.forEach((message) => { %>
+      <li>
+        <strong><%= message.sender %>:</strong>
+        <%= message.message %>
+      </li>
+      <% }) %>
+    </ul>
+
+    <h2>Create New Message</h2>
+    <form action="/messages" method="post">
+      <label for="sender">Sender:</label>
+      <input type="text" id="sender" name="sender" required />
+      <br />
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+      <br />
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      // Check if the sender value is stored in localStorage
+      const savedSender = localStorage.getItem("sender");
+      const senderInput = document.getElementById("sender");
+
+      // If the sender value is stored, set it as the default value in the input field
+      if (savedSender) {
+        senderInput.value = savedSender;
+      }
+
+      senderInput.addEventListener('input', (e) => {
+        localStorage.setItem('sender', e.target.value)
+      })
+    </script>
+  </body>
+</html>

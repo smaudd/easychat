@@ -1,0 +1,14 @@
+[
+  {
+    "sender": "gianki",
+    "message": "hi"
+  },
+  {
+    "sender": "santi",
+    "message": "hi\r\n"
+  },
+  {
+    "sender": "santi",
+    "message": "hello"
+  }
+]
