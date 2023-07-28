@@ -1,20 +1,48 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages</title>
     <style>
+      * {
+        box-sizing: border-box;
+        letter-spacing: .2rem;
+      }
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: white;
+        padding: 1rem;
+        font-size: 1.5rem;
+        text-align: center;
+        background-color: pink;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      }
       body {
         font-family: Arial, sans-serif;
         margin: 20px;
+        padding: .5rem;
+        margin: 0;
+          background-color: rgba(255, 192, 203, 0.5);
       }
       h1 {
         margin-bottom: 20px;
         border-bottom: 2px solid #333;
         padding-bottom: 5px;
+        font-size: 20px;
       }
       ul {
         list-style-type: none;
         padding: 0;
+        height: 100vh;
+        overflow-y: scroll;
+        padding-bottom: 30vh;
+      
+        
       }
       li {
         margin-bottom: 10px;
@@ -22,21 +50,29 @@
         padding: 10px;
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: white;
+
       }
       li strong {
         color: #333;
       }
       form {
-        margin-top: 20px;
-        border-top: 2px solid #333;
-        padding-top: 10px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: .5rem;
+        width: 100%;
+                  background-color: rgba(255, 192, 203, 0.5);
+
+        height: 30vh;
       }
       label {
         display: block;
         margin-bottom: 5px;
       }
       input[type="text"],
-      textarea {
+      textarea, input {
         width: 100%;
         padding: 8px;
         border: 1px solid #ccc;
@@ -45,50 +81,73 @@
       button {
         margin-top: 10px;
         padding: 10px 20px;
-        background-color: #007bff;
+        background-color: plum;
         color: #fff;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        width: 100%;
       }
-      button:hover {
-        background-color: #0056b3;
+ 
+      .buttons-container {
+        display: flex;
+        gap: 5px;
       }
+
     </style>
   </head>
   <body>
-    <h1>Messages</h1>
-    <ul>
+    <header>
+        🐎🐎🐎🐎🐎
+    </header>
+    <ul id="messages">
       <% messages.forEach((message) => { %>
       <li>
         <strong><%= message.sender %>:</strong>
         <%= message.message %>
+        <div id="date">
+            <%= message.date %>
+        </div>
       </li>
       <% }) %>
     </ul>
-
-    <h2>Create New Message</h2>
     <form action="/messages" method="post">
       <label for="sender">Sender:</label>
       <input type="text" id="sender" name="sender" required />
       <br />
       <label for="message">Message:</label>
-      <textarea id="message" name="message" required></textarea>
+      <input id="message" name="message" required></textarea>
       <br />
-      <button type="submit">Submit</button>
+      <div class="buttons-container">
+          <button type="button" id="refresh">Refresh</button>
+          <button type="submit">Submit</button>
+      </div>
     </form>
     <script>
-      // Check if the sender value is stored in localStorage
+   
       const savedSender = localStorage.getItem("sender");
       const senderInput = document.getElementById("sender");
+      const lastMessage = document.querySelectorAll('li')
+
 
       // If the sender value is stored, set it as the default value in the input field
       if (savedSender) {
         senderInput.value = savedSender;
       }
+lastMessage[lastMessage.length - 1].scrollIntoView({})
+      const scrollToBottom = (id) => {
+    const element = document.getElementById(id);
+    element.scrollTop = element.scrollHeight;
+}
+
+scrollToBottom('messages')
 
       senderInput.addEventListener('input', (e) => {
         localStorage.setItem('sender', e.target.value)
+      })
+
+      document.querySelector('#refresh').addEventListener('click', () => {
+        window.location.reload()
       })
     </script>
   </body>

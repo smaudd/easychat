@@ -39,8 +39,21 @@ app.post('/messages', (req, res) => {
   if (!sender || !message) {
     return res.status(400).json({ error: 'Sender and message are required.' });
   }
+    
+    const now = new Date();
 
-  const newMessage = { sender, message };
+// Format the date and time for Spain
+const options = {
+    day: 'numeric',
+    month: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  timeZone: 'Europe/Madrid'
+};
+
+const formattedDateTime = now.toLocaleString('es-ES', options);
+
+  const newMessage = { sender, message, date: formattedDateTime };
   const messages = readDataFromFile();
   messages.push(newMessage);
   writeDataToFile(messages);
